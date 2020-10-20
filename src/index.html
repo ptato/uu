@@ -15,20 +15,31 @@
             height: 100%;
         } */
     </style>
+
     <script>
         let c = document.getElementById("c");
         let ctx = c.getContext("2d");
         c.width = window.innerWidth;
         c.height = window.innerHeight;
+        /* https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API */
+        function render() {
+            let statusHeight = 20;
+            ctx.fillStyle = "green";
+            ctx.fillRect(0, window.innerHeight-statusHeight, window.innerWidth, statusHeight);
+            ctx.fillStyle = "black";
+            ctx.font = statusHeight/4*3 + "px monospace";
+            let textBaseline = window.innerHeight-statusHeight/4;
+            ctx.fillText('>< master  X0  X0', statusHeight/4, textBaseline);
+            let rightText = "Spaces: 4  UTF-8  HTML";
+            let metrics = ctx.measureText(rightText);
+            ctx.fillText(rightText, window.innerWidth-metrics.width-statusHeight/4, textBaseline);
+        }
         render();
+        /* https://developer.mozilla.org/en-US/docs/Web/Events */
         window.onresize = function() {
             c.width = window.innerWidth;
             c.height = window.innerHeight;
             render();
         };
-        function render() {
-            ctx.fillStyle = 'green';
-            ctx.fillRect(10.5, 10.5, 150, 100);
-        }
     </script>
 </html>

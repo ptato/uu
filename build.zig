@@ -1,3 +1,11 @@
+// It works right now... but I don't fully understand it
+// It's hard to find good documentation for this build system
+//
+// I'm not sure if I'm defining the object file (.o) as rigurously
+// as I would like in order for it to count as an actual "step" or
+// whatever and not be recompiled every time. Also I would like
+// the .o file to go on the zig-cache/ folder and that way I
+// wouldn't need the webview/ folder
 const std = @import("std");
 const Builder = @import("std").build.Builder;
 
