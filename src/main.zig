@@ -5,11 +5,13 @@ usingnamespace @cImport({
 const std = @import("std");
 const editor = @import("editor.zig");
 
-const allocator = std.heap.c_allocator; 
+const allocator = std.heap.c_allocator;
+
 
 export fn onKeyDown(seq: [*c]const u8, req: [*c]const u8, arg: ?*c_void) void {
-    const key_code: i64 = std.json.parse(i32, std.json.TokenStream.init(req), .{ .allocator=allocator });
-    std.debug.warn("key_code {}\n", .{key_code});
+    var parser = std.json.TokenStream.init(std.mem.span(req));
+    const parsedReq = std.json.parse([][]u8, &parser, std.json.ParseOptions{ .allocator=allocator }) catch unreachable;
+    const key = parsedReq[0];
     webview_return(arg, seq, 0, req);
 }
 

@@ -22,7 +22,7 @@
         c.width = window.innerWidth;
         c.height = window.innerHeight;
         /* https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API */
-        function render() {
+        function render(state) {
             let statusHeight = 20;
             ctx.fillStyle = "green";
             ctx.fillRect(0, window.innerHeight-statusHeight, window.innerWidth, statusHeight);
@@ -42,9 +42,9 @@
             render();
         };
         window.addEventListener("keydown", function(event) {
-            uu_onKeyDown(event.keyCode)
+            uu_onKeyDown(event.key)
                 .then(res => {
-                    ctx.fillText(JSON.parse(res), 50, 50);
+                    render(JSON.parse(res));
                 })
         });
     </script>
