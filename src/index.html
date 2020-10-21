@@ -41,5 +41,11 @@
             c.height = window.innerHeight;
             render();
         };
+        window.addEventListener("keydown", function(event) {
+            uu_onKeyDown(event.keyCode)
+                .then(res => {
+                    ctx.fillText(JSON.parse(res), 50, 50);
+                })
+        });
     </script>
 </html>
