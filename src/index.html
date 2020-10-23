@@ -17,12 +17,18 @@
     </style>
 
     <script>
+        let state = {
+            text: "a"
+        };
+
         let c = document.getElementById("c");
         let ctx = c.getContext("2d");
         c.width = window.innerWidth;
         c.height = window.innerHeight;
         /* https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API */
-        function render(state) {
+        function render() {
+            ctx.fillStyle = "white";
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
             let statusHeight = 20;
             ctx.fillStyle = "green";
             ctx.fillRect(0, window.innerHeight-statusHeight, window.innerWidth, statusHeight);
@@ -33,6 +39,7 @@
             let rightText = "Spaces: 4  UTF-8  HTML";
             let metrics = ctx.measureText(rightText);
             ctx.fillText(rightText, window.innerWidth-metrics.width-statusHeight/4, textBaseline);
+            ctx.fillText(state.text, window.innerWidth/2, window.innerHeight/2);
         }
         render();
         /* https://developer.mozilla.org/en-US/docs/Web/Events */
@@ -42,10 +49,8 @@
             render();
         };
         window.addEventListener("keydown", function(event) {
-            uu_onKeyDown(event.key)
-                .then(res => {
-                    render(JSON.parse(res));
-                })
+            uu_onKeyDown(event.key);
         });
+        setInterval(render, 33.333);
     </script>
 </html>
