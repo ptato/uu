@@ -8,11 +8,13 @@ const editor = @import("editor.zig");
 const default_allocator = std.heap.c_allocator;
 
 const App = struct {
+    allocator: *std.mem.Allocator,
     webview: webview_t,
     buffer: editor.Buffer,
 
     pub fn create(allocator: *std.mem.Allocator, webview: webview_t) App {
         return App {
+            .allocator = allocator,
             .webview = webview,
             .buffer = editor.Buffer.create(allocator),
         };
@@ -32,7 +34,7 @@ export fn onKeyDown(seq: [*c]const u8, req: [*c]const u8, arg: ?*c_void) void {
     app.buffer.append(key);
 
     const text = app.buffer.toString();
-    const js = std.fmt.allocPrint(app.allocator, "state.text = '{}'\x00", .{text}) catch return;
+    const js = std.fmt.allocPrint(app.allocator, "text.value = '{}'\x00", .{text}) catch return;
     defer app.allocator.free(js);
     webview_eval(app.webview, @ptrCast([*c]const u8, js));
 }
