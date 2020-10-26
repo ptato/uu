@@ -34,7 +34,7 @@ export fn onKeyDown(seq: [*c]const u8, req: [*c]const u8, arg: ?*c_void) void {
     app.buffer.append(key);
 
     const text = app.buffer.toString();
-    const js = std.fmt.allocPrint(app.allocator, "text.value = '{}'\x00", .{text}) catch return;
+    const js = std.fmt.allocPrint(app.allocator, "text.value = '{}'", .{text}) catch return;
     defer app.allocator.free(js);
     webview_eval(app.webview, @ptrCast([*c]const u8, js));
 }
@@ -44,7 +44,7 @@ export fn onKeyDown(seq: [*c]const u8, req: [*c]const u8, arg: ?*c_void) void {
 pub fn main() anyerror!void {
 
     const html = @embedFile("index.html");
-    const data_uri = try std.fmt.allocPrint(default_allocator, " data:text/html,{}\x00", .{html});
+    const data_uri = try std.fmt.allocPrint(default_allocator, " data:text/html,{}", .{html});
     defer default_allocator.free(data_uri);
     const data_uri_c = @ptrCast([*c]const u8, data_uri);
 
